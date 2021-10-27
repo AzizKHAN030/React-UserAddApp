@@ -31,12 +31,42 @@ code {
 
 .nav-wrapper {
   padding: 0 50px;
+
+  button {
+    margin: 0 10px !important;
+  }
+}
+
+.nav {
+
+
+  .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .logo {
+      font-size: 24px;
+    }
+  }
+
+  #modal {
+    .container {
+      display: block;
+    }
+
+    &.bottom-sheet {
+      max-height: 50% !important;
+    }
+  }
 }
 
 .collection-item {
   position: relative;
   cursor: pointer;
   transition: background .3s;
+  display: flex;
+  justify-content: space-between;
 
   &:hover {
     background: rgb(243, 243, 243);
@@ -46,13 +76,33 @@ code {
     font-weight: 600;
   }
 
-  button.modal-trigger {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
+
+
+  .modalTriggers {
+    display: flex;
+    align-items: center;
+
+    button {
+      margin: 0 10px !important;
+    }
   }
 
+  @media screen and (max-width:799px) {
+    flex-direction: column;
+    align-items: center;
+
+    .modalTriggers {
+      margin-top: 20px;
+    }
+  }
+}
+
+@media screen and (max-width:599px) {
+  .filterBlock {
+    .col {
+      float: none;
+    }
+  }
 }
 
 .dropdown-content {

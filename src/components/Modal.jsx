@@ -38,7 +38,7 @@ function Modal({ type, dataTarget, userId }) {
   const emailInputRef = React.useRef(null);
   const usernameInputRef = React.useRef(null);
   const onAddUser = (e) => {
-    const userId = users[users.length - 1].id + 1;
+    const userId = Math.max(...users.map((user) => user.id)) + 1;
     if (
       users.some(
         (user) =>
@@ -89,7 +89,11 @@ function Modal({ type, dataTarget, userId }) {
     <>
       <div>
         <Button
-          className="waves-effect waves-light btn modal-trigger"
+          className={
+            type === "add"
+              ? "waves-effect waves-light btn modal-trigger blue darken-1 "
+              : "waves-effect waves-light btn modal-trigger red darken-1"
+          }
           data-target={type === "add" ? "modal" : dataTarget}
         >
           {type === "add" ? "Add New User" : "Delete User"}
@@ -139,12 +143,12 @@ function Modal({ type, dataTarget, userId }) {
               )}
             </div>
             <div className="modal-footer">
-              <Button className="modal-close waves-effect waves-yellow btn-flat">
+              <Button className="modal-close waves-effect waves-light btn-flat blue teal lighten-1 white-text">
                 Cancel
               </Button>
               {type === "add" ? (
                 <Button
-                  className="modal-close waves-effect waves-green btn-flat"
+                  className="modal-close waves-effect waves-green btn-flat blue darken-2 white-text"
                   onClick={onAddUser}
                   disabled={!filled}
                 >
@@ -152,7 +156,7 @@ function Modal({ type, dataTarget, userId }) {
                 </Button>
               ) : (
                 <Button
-                  className="modal-close waves-effect waves-red btn-flat"
+                  className="modal-close waves-effect waves-light btn-flat red darken-1 white-text"
                   onClick={() => {
                     onDeleteUser(userId);
                   }}

@@ -11,24 +11,72 @@ import {
   Container,
 } from "react-materialize";
 import Modal from "../components/Modal";
+import UserModal from "../components/UserModal";
 export default function Home({ users }) {
   const [searchVal, setSearchVal] = React.useState("");
+  const [sortUsers, setSortUsers] = React.useState(3);
+
   const onSearch = (e) => {
     setSearchVal(e.target.value.toLowerCase());
   };
 
-  const showUser = () => {};
+  const sortBy = (arr) => {
+    return arr.sort((a, b) => {
+      switch (sortUsers) {
+        case "1":
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+          break;
+
+        case "2":
+          if (a.name > b.name) {
+            return -1;
+          }
+          if (a.name < b.name) {
+            return 1;
+          }
+          return 0;
+          break;
+        case "3":
+          if (a.id < b.id) {
+            return -1;
+          }
+          if (a.id > b.id) {
+            return 1;
+          }
+          return 0;
+          break;
+        case "4":
+          if (a.id > b.id) {
+            return -1;
+          }
+          if (a.id < b.id) {
+            return 1;
+          }
+          return 0;
+          break;
+
+        default:
+          break;
+      }
+    });
+  };
 
   return (
     <>
       <Nav />
       <Container id="homeWrapper">
-        <Row>
-          <Col m={6}>
+        <Row className="filterBlock">
+          <Col m={6} s={12}>
             <Select
               id="Select-41"
               multiple={false}
-              onChange={function noRefCheck() {}}
+              // onChange={function noRefCheck() {}}
               m={12}
               options={{
                 classes: "",
@@ -48,6 +96,9 @@ export default function Home({ users }) {
                 },
               }}
               value=""
+              onChange={(e) => {
+                setSortUsers(e.target.value);
+              }}
             >
               <option disabled value="">
                 Filter Users
@@ -55,10 +106,10 @@ export default function Home({ users }) {
               <option value="1">Name (A-Z)</option>
               <option value="2">Name (Z-A)</option>
               <option value="3">ID ASC</option>
-              <option value="3">ID DESC</option>
+              <option value="4">ID DESC</option>
             </Select>
           </Col>
-          <Col m={6}>
+          <Col m={6} s={12}>
             <TextInput
               id="TextInput-32"
               label="First Name"
@@ -70,7 +121,7 @@ export default function Home({ users }) {
         <Row>
           <Col m={12} s={12} className="usersCollection">
             <Collection>
-              {users
+              {sortBy(users)
                 .filter(
                   (user) =>
                     user.username.toLowerCase().includes(searchVal) ||
@@ -79,25 +130,24 @@ export default function Home({ users }) {
                 )
                 .map((user) => {
                   return (
-                    <CollectionItem
-                      className="avatar"
-                      key={user.id}
-                      onClick={showUser}
-                    >
-                      <span className="title">Name: {user.name}</span>
-                      <p>
-                        Username: {user.username}
-                        <br />
-                        Email: {user.email}
-                      </p>
-                      <Modal
-                        waves="light"
-                        node="button"
-                        userId={user.id}
-                        dataTarget={"modal" + user.id}
-                      >
-                        Delete This User
-                      </Modal>
+                    <CollectionItem className="avatar" key={user.id}>
+                      <div className="userDetails">
+                        <span className="title">Name: {user.name}</span>
+                        <p>
+                          Username: {user.username}
+                          <br />
+                          Email: {user.email}
+                        </p>
+                      </div>
+                      <div className="modalTriggers">
+                        <UserModal waves="light" node="button" user={user} />
+                        <Modal
+                          waves="light"
+                          node="button"
+                          userId={user.id}
+                          dataTarget={"modal" + user.id}
+                        />
+                      </div>
                     </CollectionItem>
                   );
                 })}

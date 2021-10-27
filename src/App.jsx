@@ -37,5 +37,4 @@ function App() {
     </>
   );
 }
-//users={users}
 export default App;
