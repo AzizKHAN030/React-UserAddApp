@@ -30,7 +30,7 @@ export default function Home({ users }) {
           if (a.name > b.name) {
             return 1;
           }
-          return 0;
+
           break;
 
         case "2":
@@ -40,7 +40,7 @@ export default function Home({ users }) {
           if (a.name < b.name) {
             return 1;
           }
-          return 0;
+
           break;
         case "3":
           if (a.id < b.id) {
@@ -49,7 +49,7 @@ export default function Home({ users }) {
           if (a.id > b.id) {
             return 1;
           }
-          return 0;
+
           break;
         case "4":
           if (a.id > b.id) {
@@ -58,12 +58,13 @@ export default function Home({ users }) {
           if (a.id < b.id) {
             return 1;
           }
-          return 0;
+
           break;
 
         default:
           break;
       }
+      return 0;
     });
   };
 
@@ -130,7 +131,7 @@ export default function Home({ users }) {
                 )
                 .map((user) => {
                   return (
-                    <CollectionItem className="avatar" key={user.id}>
+                    <CollectionItem key={user.id}>
                       <div className="userDetails">
                         <span className="title">Name: {user.name}</span>
                         <p>
